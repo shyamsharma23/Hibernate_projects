@@ -13,8 +13,9 @@ import java.util.*;
  * Hello world!
  *
  */
-public class App 
-{
+public class App
+{	
+	private Scanner sc;
 	private SessionFactory sessionfact;//is an interface which contains pool of database connection
 	private Session ses;
 	public App()
@@ -36,13 +37,22 @@ public class App
 	}
 	public void getProductList()
 	{
-		ses=sessionfact.openSession();
-		Query<Product> query=ses.createQuery("from Product");//it will retreive all the records from Product entity
-		List<Product> plist=query.list();
-		for(Product p:plist)
-		{
-			System.out.println("Product name is "+p.getProductname());
-		}
+//		ses=sessionfact.openSession();
+//		Query<Product> query=ses.createQuery("from Product");//it will retreive all the records from Product entity
+//		List<Product> plist=query.list();
+//		for(Product p:plist)
+//		{
+//			System.out.println("Product name is "+p.getProductname());
+//		}
+		System.out.println("Retreiving particular row from product");
+		Query<Product> productdata=ses.createQuery("select p from Product p where p.productid=?1");
+		System.out.println("Enter product id from which u want to retreive data");
+		int pid=sc.nextInt();
+		productdata.setParameter(1, pid);
+		Product p1=productdata.getSingleResult();
+		System.out.println("Product name retreived from database is "+p1.getProductname());
+		
+	
 	}
 	
 		public void deleteData(int id)
@@ -67,7 +77,7 @@ public class App
     {
 
 	App a1=new App();
-	a1.insertData();
+	//a1.insertData();
 	a1.getProductList();
 	}
 }
